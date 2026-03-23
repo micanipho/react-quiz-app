@@ -1,0 +1,29 @@
+html,
+body {
+  padding: 0;
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
+    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+  height: 100%;
+}
+
+/* Ensure Next.js root div also takes full height */
+#__next {
+  height: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Custom styling for Ant Design radio options if needed for more prominent highlighting */
+/* This class can be applied to individual Radio components */
+.ant-radio-wrapper-selected {
+  background-color: var(--ant-color-primary-bg-hover); /* A lighter shade of primary color */
+  border-color: var(--ant-color-primary); /* Primary border color */
+}
