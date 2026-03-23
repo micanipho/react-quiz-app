@@ -1,6 +1,6 @@
-import { Question } from '../types';
+import { Question } from '@/types/quiz';
 
-export const questions: Question[] = [
+export const quizQuestions: Question[] = [
   {
     id: 'q1',
     question: 'What is the capital of France?',

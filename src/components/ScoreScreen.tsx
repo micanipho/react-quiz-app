@@ -5,13 +5,13 @@ import { useQuiz } from '@/hooks/useQuiz';
 
 const { Title, Text } = Typography;
 
-const StartScreen: React.FC = () => {
+const ScoreScreen: React.FC = () => {
   const router = useRouter();
-  const { dispatch } = useQuiz();
+  const { score, totalQuestions, dispatch } = useQuiz();
 
-  const handleStartQuiz = () => {
-    dispatch({ type: 'START_QUIZ' });
-    router.push('/quiz');
+  const handleRestartQuiz = () => {
+    dispatch({ type: 'RESTART_QUIZ' });
+    router.push('/');
   };
 
   return (
@@ -23,14 +23,16 @@ const StartScreen: React.FC = () => {
       }}
     >
       <Space direction="vertical" size="large" style={{ width: '100%' }}>
-        <Title level={2}>Welcome to the React Quiz!</Title>
-        <Text>Test your knowledge with these exciting questions.</Text>
-        <Button type="primary" size="large" onClick={handleStartQuiz}>
-          Start Quiz
+        <Title level={2}>Quiz Completed!</Title>
+        <Text strong style={{ fontSize: '24px' }}>
+          Your Score: {score} / {totalQuestions}
+        </Text>
+        <Button type="primary" size="large" onClick={handleRestartQuiz}>
+          Restart Quiz
         </Button>
       </Space>
     </Card>
   );
 };
 
-export default StartScreen;
+export default ScoreScreen;

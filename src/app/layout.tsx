@@ -1,33 +1,52 @@
-import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { AntdRegistry } from '@ant-design/nextjs-registry';
-import { ConfigProvider, theme } from 'antd';
+import './globals.css';
+import { ConfigProvider, Layout } from 'antd';
+import { StyleProvider } from '@ant-design/cssinjs';
+import { QuizProvider } from '@/context/QuizContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
   title: 'React Quiz App',
-  description: 'An interactive multiple-choice quiz application built with Next.js and Ant Design.',
+  description: 'A front-end only multiple-choice quiz application built with Next.js, TypeScript, and Ant Design.',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return (
     <html lang="en">
       <body className={inter.className}>
-        <AntdRegistry>
+        <StyleProvider hashPriority="high">
           <ConfigProvider
             theme={{
-              algorithm: theme.darkAlgorithm, // Consistent with previous layer
               token: {
                 colorPrimary: '#1890ff',
-                colorLink: '#1890ff',
+                borderRadius: 4,
+              },
+              components: {
+                Button: {
+                  colorPrimary: '#1890ff',
+                  algorithm: true,
+                },
+                Card: {
+                  padding: 24,
+                },
               },
             }}
           >
-            {children}
+            <QuizProvider>
+              <Layout style={{ minHeight: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', backgroundColor: '#f0f2f5' }}>
+                <Layout.Content style={{ maxWidth: 600, width: '100%', padding: '20px' }}>
+                  {children}
+                </Layout.Content>
+              </Layout>
+            </QuizProvider>
           </ConfigProvider>
-        </AntdRegistry>
+        </StyleProvider>
       </body>
     </html>
   );

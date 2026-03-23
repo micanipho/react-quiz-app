@@ -1,51 +1,56 @@
 import React from 'react';
-import { Typography, Radio, Space } from 'antd';
-import { Question } from '@/types';
+import { Card, Typography, Space } from 'antd';
+import { Question } from '@/types/quiz';
+import OptionButton from './OptionButton';
 
-const { Paragraph } = Typography;
+const { Title, Text } = Typography;
 
 interface QuestionCardProps {
   question: Question;
-  selectedOptionIndex: number | null;
-  onSelectOption: (index: number) => void;
+  selectedAnswerIndex: number | null;
+  onSelectAnswer: (index: number) => void;
+  isAnswered: boolean;
+  showCorrectAnswer: boolean; // For potential future feedback or score screen display
 }
 
 const QuestionCard: React.FC<QuestionCardProps> = ({
   question,
-  selectedOptionIndex,
-  onSelectOption,
+  selectedAnswerIndex,
+  onSelectAnswer,
+  isAnswered,
+  showCorrectAnswer,
 }) => {
-  const handleRadioChange = (e: any) => {
-    onSelectOption(e.target.value);
-  };
-
   return (
-    <Space direction="vertical" style={{ width: '100%' }} size="middle">
-      <Paragraph strong>{question.question}</Paragraph>
-      <Radio.Group onChange={handleRadioChange} value={selectedOptionIndex} style={{ width: '100%' }}>
+    <Card
+      style={{
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+        borderRadius: 8,
+      }}
+    >
+      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
+        <Title level={4} style={{ marginBottom: 0 }}>
+          {question.question}
+        </Title>
         <Space direction="vertical" style={{ width: '100%' }}>
           {question.options.map((option, index) => (
-            <Radio
+            <OptionButton
               key={index}
-              value={index}
-              style={{
-                padding: '12px 16px',
-                marginBlock: '4px',
-                borderRadius: '8px',
-                border: `1px solid ${selectedOptionIndex === index ? 'var(--ant-color-primary)' : 'var(--ant-color-border-secondary)'}`,
-                backgroundColor: selectedOptionIndex === index ? 'var(--ant-color-primary-bg)' : 'transparent',
-                display: 'flex',
-                alignItems: 'center',
-                width: '100%',
-                transition: 'all 0.3s',
-              }}
-            >
-              {option}
-            </Radio>
+              index={index}
+              optionText={option}
+              isSelected={selectedAnswerIndex === index}
+              onSelect={onSelectAnswer}
+              isCorrect={showCorrectAnswer && index === question.correctAnswerIndex}
+              isAnswered={isAnswered}
+              isIncorrectAndSelected={
+                showCorrectAnswer &&
+                selectedAnswerIndex === index &&
+                selectedAnswerIndex !== question.correctAnswerIndex
+              }
+            />
           ))}
         </Space>
-      </Radio.Group>
-    </Space>
+      </Space>
+    </Card>
   );
 };
 
